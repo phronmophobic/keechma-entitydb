@@ -14,7 +14,7 @@
 
 (defn recur-on
   "Recurs on a relationship by name and repeats a query. Recursion is unbounded by default, but can be limited in case of circular relationships."
-  ([relation] (recur-on relation js/Infinity))
+  ([relation] (recur-on relation Long/MAX_VALUE))
   ([relation recur-limit]
    {::type             :recur-on
     ::recur-limit      recur-limit
@@ -93,7 +93,8 @@
                                 (if (= :recur-on (::type q))
                                   (let [relation (:entitydb/relation q)
                                         current (get acc relation)]
-                                    (if (> (::recur-limit q) (::recur-limit current))
+                                    (if (or (not current)
+                                            (> (::recur-limit q) (::recur-limit current)))
                                       (assoc acc (:entitydb/relation q) q)
                                       acc))
                                   acc))

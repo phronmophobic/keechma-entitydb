@@ -7,5 +7,5 @@
                (subvec (vec coll) (inc pos)))))
 
 (defn log
-  ([args] (log "" args))
-  ([text args] (js/console.log text (with-out-str (cljs.pprint/pprint args)))))
+  ([args] #_(log "" args))
+  ([text args] #_(js/console.log text (with-out-str (cljs.pprint/pprint args)))))
